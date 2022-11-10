@@ -1,0 +1,319 @@
+public class Test
+{
+    public static void ctrlRow(char matrix[][], int posx, int y, char temp)
+    {
+        //ut.println(x);
+        //System.out.println(y);
+        int cnt = 0;
+        
+        
+        for(int c = y; c >= 0; c--)
+        {
+            if(matrix[posx][c] == temp)
+            {
+                cnt++;
+            }
+            else if(matrix[posx][c] != temp)
+            {
+                break;
+            }
+        }
+        
+        cnt--;
+        
+        for(int c = y; c <= 5; c++)
+        {
+            if(matrix[posx][c] == temp)
+            {
+                cnt++;
+            }
+            else if(matrix[posx][c] != temp)
+            {
+                break;
+            }
+        }
+        
+        //System.out.println(cnt);
+        
+        if(cnt >=  4)
+        {
+            System.out.print("\f");
+            System.out.print("win");
+        }
+    }
+    
+    public static void ctrlPillar(char matrix[][], int posx, int y, char temp)
+    {
+       //System.out.println(x);
+       //System.out.println(y);
+       int cnt = 0;
+        
+        for(int r = posx; r >= 0; r--)
+        {
+            if(matrix[r][y] == temp)
+            {
+                cnt++;
+            }
+            else if(matrix[r][y] != temp)
+            {
+                break;
+            }
+        }
+        
+        cnt--;
+        
+        for(int r = posx; r <= 7; r++)
+        {
+            if(matrix[r][y] == temp)
+            {
+                cnt++;
+            }
+            else if(matrix[r][y] != temp)
+            {
+                break;
+            }
+        }
+        
+        //System.out.println(cnt);
+        
+        if(cnt >=  4)
+        {
+            System.out.print("\f");
+            System.out.print("win");
+        }
+    }
+    
+    public static int subctrld1(char matrix[][], int posx, int y)
+    {
+        int cnt = 0;
+        int i = 0;
+        
+        while(i < 4 && y+i <matrix[posx-i].length )
+        {
+            if(matrix[posx-i][y+i] == 'X')
+            {
+                cnt++;
+            }
+            else if(matrix[posx-i][y+i] != 'X')
+            {
+                break;
+            }
+            
+            if(posx-i <= 0)
+            {
+                break;
+            }
+            i++;
+        }
+      
+        return cnt;
+    }
+    
+    public static int subctrld2(char matrix[][], int posx, int y)
+    {
+        int cnt = 0;
+        int i = 0;
+        
+        while(i < 4 && posx+i <matrix.length )
+        {
+            if(matrix[posx+i][y-i] == 'X')
+            {
+                cnt++;
+            }
+            else if(matrix[posx+i][y-i] != 'X')
+            {
+                break;
+            }
+            
+            if(y-i <= 0)
+            {
+                break;
+            }
+            i++;
+        }
+      
+        return cnt;
+    }
+    public static void ctrlOblqd(char matrix[][], int posx, int y, char temp)
+    {
+        //System.out.println(x);
+        //System.out.println(y);
+        int cnt = 0;
+        
+        int a = subctrld1(matrix, posx, y);
+        //System.out.println(a);
+        int b = subctrld2(matrix, posx, y);
+        //System.out.println(b);
+        
+        cnt  = (a+b)-1;
+        System.out.print(cnt);
+        if(cnt >=  4)
+        {
+            System.out.print("win");
+        }
+        
+    }
+
+    public static int subctrls1(char matrix[][], int posx, int y)
+    {
+        int cnt = 0;
+        int i = 0;
+        
+        while(i < 4 && y-i >= 0 )
+        {
+            if(matrix[posx-i][y-i] == 'X')
+            {
+                cnt++;
+            }
+            else if(matrix[posx-i][y-i] != 'X')
+            {
+                break;
+            }
+            
+            if(posx-i <= 0)
+            {
+                break;
+            }
+            i++;
+        }
+      
+        return cnt;
+    }
+    
+    public static int subctrls2(char matrix[][], int posx, int y)
+    {
+        int cnt = 0;
+        int i = 0;
+        
+        while(i < 4 && posx+i < matrix.length)
+        {
+            if(y+i >=matrix[posx+i].length)
+            {
+                break;
+            }
+            
+            if(matrix[posx+i][y+i] == 'X')
+            {
+                cnt++;
+            }
+            else if(matrix[posx+i][y+i] != 'X')
+            {
+                break;
+            }
+            
+            i++;
+        }
+
+      
+        return cnt;
+    }
+    
+    public static void ctrlOblqs(char matrix[][], int posx, int y, char temp)
+    {
+        //System.out.println(x);
+        //System.out.println(y);
+        int cnt = 0;
+        
+        int a = subctrls1(matrix, posx, y);
+        //System.out.println(a);
+        int b = subctrls2(matrix, posx, y);
+        //System.out.println(b);
+        
+        cnt  = (a+b)-1;
+        System.out.print(cnt);
+        if(cnt >=  4)
+        {
+            System.out.print("win");
+        }
+    }
+    
+    public static void near(char matr[][], int x, int y, int turno)
+    {
+        char temp = turno == 1? 'X' : 'S';
+        
+        //System.out.println(temp);
+        
+        for(int r =  x - 1; r <= x+1; r++)
+        {
+            for(int c = y - 1; c <= y+1; c++ )
+            {
+               if( r!=-1 && r!=matr.length && c!=-1 && c!=matr.length && (r!=x || c!=y) && matr[r][c]== temp)
+               {
+                   //System.out.println(r);
+                   //System.out.println(c);
+                   if(r+1==x && c+1==y)
+                   {
+                       // System.out.println("alto a sinistra");
+                       ctrlOblqs(matr, x, y, temp);
+                   }
+                   else if(r+1==x && c-1==y)
+                   {
+                       System.out.println("alto a destra"); 
+                       ctrlOblqd(matr, x, y, temp);
+                   }
+                   else if(r-1==x && c-1==y)
+                   {
+                       System.out.println("basso a destra"); 
+                       ctrlOblqs(matr, x, y, temp);
+                   }
+                   else if(r-1==x && c+1==y)
+                   {
+                       System.out.println("basso a sinistra"); 
+                       ctrlOblqd(matr, x, y, temp);
+                   }
+                   else if(r==x && c!=y)
+                   {
+                       System.out.println("orrizzontale");
+                       ctrlRow(matr, x, y, temp);
+                   }
+                   else if(r!=x && c==y)
+                   {
+                       //System.out.println("verticale");
+                       ctrlPillar(matr, x, y, temp);
+                   }
+                   else
+                   {
+                       System.out.println("niente");
+                   }
+               }
+            }
+        }
+    }
+    
+    public static void print(char matrix[][])
+    {
+        
+        for(int i = 0; i < 7; i++)
+        {
+            for(int k = 0; k < 5; k++)
+            {
+                System.out.print("|" + matrix[i][k] + "|");
+            }
+            System.out.println("");
+        }
+        
+    }
+    
+    public static void main(String[] arg)
+    {
+        char[][] matrix;
+        matrix= new char[8][6];
+        matrix[0] = new char[] {'X','X','X','X','O','O'};
+        matrix[1] = new char[] {'O','X','O','O','O','O'};
+        matrix[2] = new char[] {'O','O','X','O','O','O'};
+        matrix[3] = new char[] {'O','O','O','X','O','O'};
+        matrix[4] = new char[] {'X','O','O','O','O','O'};
+        matrix[5] = new char[] {'X','O','O','O','O','O'};
+        matrix[6] = new char[] {'X','O','O','O','O','O'};
+        matrix[7] = new char[] {'X','O','O','O','O','O'};
+        int turno = 1;
+        
+        int posx = 6;
+        int posy = 0;
+        
+        near(matrix, posx, posy, turno);
+        print(matrix);
+        
+    }
+    
+}
