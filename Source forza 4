@@ -1,6 +1,50 @@
-public class Test
-{
-    public static void ctrlRow(char matrix[][], int posx, int y, char temp)
+import java.lang.Math;
+
+public class Forza4 {
+	
+	final static int COLONNE = 7;
+	final static int RIGHE = 6;
+	
+	static boolean ctrlPillar(int matrix[][], int posx, int y, int turno)
+    {
+       int cnt = 0;
+        
+        for(int r = posx; r >= 0; r--)
+        {
+            if(matrix[r][y] == turno)
+            {
+                cnt++;
+            }
+            else if(matrix[r][y] != turno)
+            {
+                break;
+            }
+        }
+        
+        cnt--;
+        
+        for(int r = posx; r < RIGHE; r++)
+        {
+            if(matrix[r][y] == turno)
+            {
+                cnt++;
+            }
+            else if(matrix[r][y] != turno)
+            {
+                break;
+            }
+        }
+        
+        if(cnt >=  4)
+        {
+            return true;
+        }else {
+        	return false;
+        }
+    }
+	
+	
+	static boolean ctrlRow(int matrix[][], int posx, int y, int turno)
     {
         //ut.println(x);
         //System.out.println(y);
@@ -9,11 +53,11 @@ public class Test
         
         for(int c = y; c >= 0; c--)
         {
-            if(matrix[posx][c] == temp)
+            if(matrix[posx][c] == turno)
             {
                 cnt++;
             }
-            else if(matrix[posx][c] != temp)
+            else if(matrix[posx][c] != turno)
             {
                 break;
             }
@@ -21,299 +65,298 @@ public class Test
         
         cnt--;
         
-        for(int c = y; c <= 5; c++)
+        for(int c = y; c < COLONNE; c++)
         {
-            if(matrix[posx][c] == temp)
+            if(matrix[posx][c] == turno)
             {
                 cnt++;
             }
-            else if(matrix[posx][c] != temp)
+            else if(matrix[posx][c] != turno)
             {
                 break;
             }
         }
         
-        //System.out.println(cnt);
         
         if(cnt >=  4)
         {
-            System.out.print("\f");
-            System.out.print("win");
+            return true;
+        } else {
+        	return false;
         }
     }
-    
-    public static void ctrlPillar(char matrix[][], int posx, int y, char temp)
-    {
-       //System.out.println(x);
-       //System.out.println(y);
-       int cnt = 0;
-        
-        for(int r = posx; r >= 0; r--)
-        {
-            if(matrix[r][y] == temp)
-            {
-                cnt++;
-            }
-            else if(matrix[r][y] != temp)
-            {
-                break;
-            }
-        }
-        
-        cnt--;
-        
-        for(int r = posx; r <= 7; r++)
-        {
-            if(matrix[r][y] == temp)
-            {
-                cnt++;
-            }
-            else if(matrix[r][y] != temp)
-            {
-                break;
-            }
-        }
-        
-        //System.out.println(cnt);
-        
-        if(cnt >=  4)
-        {
-            System.out.print("\f");
-            System.out.print("win");
-        }
-    }
-    
-    public static int subctrld1(char matrix[][], int posx, int y)
-    {
-        int cnt = 0;
-        int i = 0;
-        
-        while(i < 4 && y+i <matrix[posx-i].length )
-        {
-            if(matrix[posx-i][y+i] == 'X')
-            {
-                cnt++;
-            }
-            else if(matrix[posx-i][y+i] != 'X')
-            {
-                break;
-            }
-            
-            if(posx-i <= 0)
-            {
-                break;
-            }
-            i++;
-        }
-      
-        return cnt;
-    }
-    
-    public static int subctrld2(char matrix[][], int posx, int y)
-    {
-        int cnt = 0;
-        int i = 0;
-        
-        while(i < 4 && posx+i <matrix.length )
-        {
-            if(matrix[posx+i][y-i] == 'X')
-            {
-                cnt++;
-            }
-            else if(matrix[posx+i][y-i] != 'X')
-            {
-                break;
-            }
-            
-            if(y-i <= 0)
-            {
-                break;
-            }
-            i++;
-        }
-      
-        return cnt;
-    }
-    public static void ctrlOblqd(char matrix[][], int posx, int y, char temp)
-    {
-        //System.out.println(x);
-        //System.out.println(y);
-        int cnt = 0;
-        
-        int a = subctrld1(matrix, posx, y);
-        //System.out.println(a);
-        int b = subctrld2(matrix, posx, y);
-        //System.out.println(b);
-        
-        cnt  = (a+b)-1;
-        System.out.print(cnt);
-        if(cnt >=  4)
-        {
-            System.out.print("win");
-        }
-        
-    }
+	
+	static void cpu(int[][] mtr,int f, int turno){
+		int randomInt;
+		do {
+			randomInt = (int)(Math.random()*COLONNE);
+		} while(mtr[0][randomInt]!=-1);
+		
+		for(int i=RIGHE-1; i>0; i--) {
+			if(mtr[i][randomInt]==-1) {
+				mtr[i][randomInt]=turno;
+				return;
+			}
+		}
+	}
 
-    public static int subctrls1(char matrix[][], int posx, int y)
+	static boolean ctrlS(int matrix[][], int posx, int y, int turno)
     {
-        int cnt = 0;
-        int i = 0;
+        int valore1 = 0;
+        int valore2=0;
         
-        while(i < 4 && y-i >= 0 )
-        {
-            if(matrix[posx-i][y-i] == 'X')
-            {
-                cnt++;
+        for(int i=0; i < 4 && y-i > 0; i++ ) {
+            if(posx>0 && y>0) {
+            	if(matrix[posx-i][y-i] == turno) {
+                    valore1++;
+                }
+                else if(matrix[posx-i][y-i] != turno || posx-i <= 0)
+                {
+                    break;
+                }
             }
-            else if(matrix[posx-i][y-i] != 'X')
+        }
+        
+        System.out.println(valore1);
+        
+        for(int i=0; i < 4 && posx+i < RIGHE; i++ )
+        {
+            if(matrix[posx+i][y+i] == turno)
+            {
+                valore2++;
+            }
+            else if(matrix[posx+i][y+i] != turno || y+i >=COLONNE)
             {
                 break;
             }
             
-            if(posx-i <= 0)
-            {
-                break;
-            }
-            i++;
         }
-      
-        return cnt;
+        if(valore1+valore2-1>=4) {
+        	return true;
+        } else {
+        	return false;
+        }
     }
-    
-    public static int subctrls2(char matrix[][], int posx, int y)
-    {
-        int cnt = 0;
-        int i = 0;
-        
-        while(i < 4 && posx+i < matrix.length)
-        {
-            if(y+i >=matrix[posx+i].length)
-            {
-                break;
-            }
-            
-            if(matrix[posx+i][y+i] == 'X')
-            {
-                cnt++;
-            }
-            else if(matrix[posx+i][y+i] != 'X')
-            {
-                break;
-            }
-            
-            i++;
-        }
+	
+	static boolean ctrlD(int matrix[][], int posx, int y, int turno)
+	{
+	    int valore1 = 0;
+	    int valore2=0;
+	    
+	    for(int i=0; i < 4 && y+i <COLONNE; i++ ) {
+	    	if(posx!=0) {
+	    		if(matrix[posx-i][y+i] == turno) {
+		            valore1++;
+		        }
+		        else if(matrix[posx-i][y+i] != turno || posx-i <= 0)
+		        {
+		            break;
+		        }
+	    	}
+	    }
+	    
+	    
+	    for(int i=0; i < 4 && posx+i <RIGHE; i++ )
+	    {
+	        if(y!=0) {
+	        	if(matrix[posx+i][y-i] == turno)
+		        {
+		            valore2++;
+		        }
+		        else if(matrix[posx+i][y-i] != turno || y-i <= 0)
+		        {
+		            break;
+		        }
+	        }
+	    }
 
-      
-        return cnt;
-    }
-    
-    public static void ctrlOblqs(char matrix[][], int posx, int y, char temp)
-    {
-        //System.out.println(x);
-        //System.out.println(y);
-        int cnt = 0;
-        
-        int a = subctrls1(matrix, posx, y);
-        //System.out.println(a);
-        int b = subctrls2(matrix, posx, y);
-        //System.out.println(b);
-        
-        cnt  = (a+b)-1;
-        System.out.print(cnt);
-        if(cnt >=  4)
-        {
-            System.out.print("win");
+	    if(valore1+valore2-1>=4) {
+        	return true;
+        } else {
+        	return false;
         }
+	}
+	
+	static boolean near(int[][] matr, int x, int y, int turno) {
+		for(int r =  x - 1; r <= x+1; r++) {
+			for(int c = y - 1; c <= y+1; c++ ) {
+				
+				if( r!=-1 && r!=RIGHE && c!=-1 && c!=COLONNE && (r!=x || c!=y) && matr[r][c]== turno) {
+					if(r+1==x && c+1==y || r-1==x && c-1==y) {
+						return ctrlS(matr, x, y, turno);
+						
+					} else if(r+1==x && c-1==y || r-1==x && c+1==y) {
+						return ctrlD(matr, x, y, turno);
+						
+					} else if(r==x && c!=y) {
+						return ctrlRow(matr, x, y, turno);
+						
+					} else if(r!=x && c==y) {
+						return ctrlPillar(matr, x, y, turno);
+						
+					} else {
+						return false;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	static void controlWin(int[][] m, int turno, int lastmove) {
+		int x=0;
+		for(int i=0; i<RIGHE && x==0; i++) {
+			if(m[i][lastmove]!=-1) {
+				x=i;
+				break;
+			}
+		}
+		if(near(m, x, lastmove, turno)==true) {
+			printWin(turno);
+			System.exit(0);
+		}
+	}
+	
+	
+	static int mosse(int[][] mtr, int turno, boolean bot, int lastmove){
+		if(bot == true && turno ==1) {
+    		cpu(mtr, lastmove, turno);
+        } else {
+            lastmove=player(turno, mtr);
+        }
+		return lastmove;
+    }
+	
+	
+    static void cls() {
+    	System.out.print("\f");
     }
     
-    public static void near(char matr[][], int x, int y, int turno)
-    {
-        char temp = turno == 1? 'X' : 'S';
+    
+    static void printLabel(int m[][]) {
+    	for(int i=0; i<RIGHE; i++) {
+    		System.out.println("+-------+-------+-------+-------+-------+-------+-------+");
+    		System.out.println("|       |       |       |       |       |       |       |");
+			for(int k=0; k<COLONNE; k++) {
+				if(m[i][k]==-1) {
+					System.out.print("|       ");
+				} else if(m[i][k]==0) {
+					System.out.print("|   ©   ");
+				} else if(m[i][k]==1) {
+					System.out.print("|   x   ");
+				}
+				
+			}
+			System.out.print("|\n");
+			System.out.println("|       |       |       |       |       |       |       |");
+		}
+		System.out.println("+-------+-------+-------+-------+-------+-------+-------+");
+		System.out.println("|  <0>  |  <1>  |  <2>  |  <3>  |  <4>  |  <5>  |  <6>  |");
+		System.out.println("+-------+-------+-------+-------+-------+-------+-------+");
+    }
+    
+    
+    static int player(int turno, int[][]matr) {
+    	int n;
+        do {
+        	cls();
+        	printLabel(matr);
+        	System.out.print("Inserisci la colonna (da 0 a 6): ");
+            n=Leggi.unInt();
+        } while(n<=-1 || n>=COLONNE || matr[0][n]!=-1);
         
-        //System.out.println(temp);
-        
-        for(int r =  x - 1; r <= x+1; r++)
-        {
-            for(int c = y - 1; c <= y+1; c++ )
-            {
-               if( r!=-1 && r!=matr.length && c!=-1 && c!=matr.length && (r!=x || c!=y) && matr[r][c]== temp)
-               {
-                   //System.out.println(r);
-                   //System.out.println(c);
-                   if(r+1==x && c+1==y)
-                   {
-                       // System.out.println("alto a sinistra");
-                       ctrlOblqs(matr, x, y, temp);
-                   }
-                   else if(r+1==x && c-1==y)
-                   {
-                       System.out.println("alto a destra"); 
-                       ctrlOblqd(matr, x, y, temp);
-                   }
-                   else if(r-1==x && c-1==y)
-                   {
-                       System.out.println("basso a destra"); 
-                       ctrlOblqs(matr, x, y, temp);
-                   }
-                   else if(r-1==x && c+1==y)
-                   {
-                       System.out.println("basso a sinistra"); 
-                       ctrlOblqd(matr, x, y, temp);
-                   }
-                   else if(r==x && c!=y)
-                   {
-                       System.out.println("orrizzontale");
-                       ctrlRow(matr, x, y, temp);
-                   }
-                   else if(r!=x && c==y)
-                   {
-                       //System.out.println("verticale");
-                       ctrlPillar(matr, x, y, temp);
-                   }
-                   else
-                   {
-                       System.out.println("niente");
-                   }
-               }
+        for(int i=0; i<RIGHE; i++) {
+            if(matr[i][n]!=-1) {
+            	matr[i-1][n]=turno;
+                return n;
             }
         }
+        matr[RIGHE-1][n]=turno;
+        return n;
     }
     
-    public static void print(char matrix[][])
-    {
+    
+    static boolean menu() {
+    	int temp;
+    	do {
+    		cls();
+    		printTitle();
+    		System.out.print("Inserisci 1 se vuoi abiliatre il bot o 0 per giocare contro un'altra persona: ");
+        	temp=Leggi.unInt();
+    	} while(temp!=0 && temp!=1);
+    	
+    	if(temp==0) {
+    		return false;
+    	} else {
+    		return true;
+    	}
+    }
+    
+    
+    static void printTitle() {
+    	System.out.println(".-..--. .-..-..-. .-..-.   .-..-. .-..-..-.     .-.   .-. ");
+    	System.out.println("| | ~~  | | ~ | | | | ~.-.  ~ | | | | ~ | |     | | _ | | ");
+    	System.out.println("| | _   | |   | | | |.-.~     |/  | |.-.| |     `-'`-'| | ");
+    	System.out.println("| |`-'  | |   | | | | ~.-.  /|    | | ~ | |           | | ");
+    	System.out.println("| |     | | _ | | | |  | | | | _  | |   | |           | | ");
+    	System.out.println("`-'     `-'`-'`-' `-'  `-' `-'`-' `-'   `-'           `-' ");
+    }
+    
+    
+    static void printWin(int turno) {
+        System.out.println(".-.   .-. .-. .-..-.  .-. .-..--. .-..--.");     
+        System.out.println("| |   | | | | | | ~.-.| | | | ~~  | | ~~");
+        System.out.println("| |   | | | | | |   ~ | | | |     | | _");
+        System.out.println("| |   | | | | | |     | | | |     | |`-'");
+        System.out.println("`-' _ `-' | | | |     | | | | __  | | __");
+        System.out.println("   `-'    `-' `-'     `-' `-'`--' `-'`--'");
+        System.out.println();
+        System.out.println(".-. .-.         .-..--.  .-. .-..-..-. .-..--. .-..-..-. .-..-..-. .-..-..-. .-..-.   .-..--.");
+        System.out.println("| | | |         | | ~~   | | | | ~ | | | | ~~  | | ~ | |  ~ | | ~  | | ~ | | | | ~.-. | | ~~");
+        System.out.println("| | | |         | |  __  | | | |   | | | |     | |.-.| |    | |    | |   | | | |.-.~  | | _");
+        System.out.println("| | | |         | | `. | | | | |   | | | |     | | ~ | |    | |    | |   | | | | ~.-. | |`-'");
+        System.out.println("| | | | __      | | _| | | | | | _ | | | | __  | |   | |    | |    | | _ | | | |  | | | | __");
+        System.out.println("`-' `-'`--'     `-'`---' `-' `-'`-'`-' `-'`--' `-'   `-'    `-'    `-'`-'`-' `-'  `-' `-'`--'");
         
-        for(int i = 0; i < 7; i++)
-        {
-            for(int k = 0; k < 5; k++)
-            {
-                System.out.print("|" + matrix[i][k] + "|");
-            }
-            System.out.println("");
+        if(turno==0) {
+        	System.out.println(".-.   .-. .-..-.  .-. .-..-..-.");
+            System.out.println("| |   | | | | ~.-.| | | | ~ | |");
+            System.out.println("| |   | | | |   ~ | | | |   | |");
+            System.out.println("| |   | | | |     | | | |   | |");
+            System.out.println("| | _ | | | |     | | | | _ | |");
+            System.out.println("`-'`-'`-' `-'     `-' `-'`-'`-'");
+        } else {
+            System.out.println(".-..-.   .-.   .-. .-..--.");
+            System.out.println("| | ~.-. | |   | | | | ~~");
+            System.out.println("| |  | | | |   | | | | _");
+            System.out.println("| |  | | | |   | | | |`-'");
+            System.out.println("| | _`-' | | _ | | | | __");
+            System.out.println("`-'`-'   `-'`-'`-' `-'`--'");
         }
-        
     }
     
-    public static void main(String[] arg)
-    {
-        char[][] matrix;
-        matrix= new char[8][6];
-        matrix[0] = new char[] {'X','X','X','X','O','O'};
-        matrix[1] = new char[] {'O','X','O','O','O','O'};
-        matrix[2] = new char[] {'O','O','X','O','O','O'};
-        matrix[3] = new char[] {'O','O','O','X','O','O'};
-        matrix[4] = new char[] {'X','O','O','O','O','O'};
-        matrix[5] = new char[] {'X','O','O','O','O','O'};
-        matrix[6] = new char[] {'X','O','O','O','O','O'};
-        matrix[7] = new char[] {'X','O','O','O','O','O'};
-        int turno = 1;
-        
-        int posx = 6;
-        int posy = 0;
-        
-        near(matrix, posx, posy, turno);
-        print(matrix);
-        
+
+    static void iniziaCampo(int[][] m) {
+    	for(int i=0; i<RIGHE; i++) {
+    		for(int k=0; k<COLONNE; k++) {
+        		m[i][k]=-1;
+        	}
+    	}
     }
     
+    
+    public static void main() {
+    	int lastmove=0;
+    	int[][] campo=new int[RIGHE][COLONNE];
+    	iniziaCampo(campo);
+        int turno=1;
+        boolean bot=menu();
+        cls();
+        while(true) {
+            turno=(turno+1)%2;
+            lastmove=mosse(campo, turno, bot, lastmove);
+            cls();
+            controlWin(campo, turno, lastmove);
+        }
+    }
 }
